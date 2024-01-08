@@ -1,4 +1,4 @@
-const { Telegraf } = require('telegraf')
+const { Telegraf } = require('telegraf');
 const axios = require('axios');
 
 require('dotenv').config();
@@ -25,6 +25,17 @@ async function interact(ctx, chatID, request) {
         switch(trace.type) {
             case "text":
             case "speak": {
+
+                if (request.type == 'launch') {
+                    await ctx.replyWithMarkdownV2(
+                        trace.payload.message, {
+                            parse_mode: 'markdown',
+                            reply_markup: { keyboard: [['Gold price', 'BTC price', 'EUR/USD ratio'],['Give me some advice', 'What you can do?']] }
+                        }
+                    );
+
+                    break;
+                }
                 await ctx.reply(trace.payload.message, { parse_mode: 'markdown' });
                 break;
             }
